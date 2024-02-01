@@ -19,7 +19,7 @@
         <result column="requires_auth" jdbcType="BIT" property="requiresAuth" />
         <result column="keep_alive" jdbcType="BIT" property="keepAlive" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="state" jdbcType="BIT" property="state" />
+        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
     </resultMap>
 
     <select id="listByCondition" resultMap="VOResultMap">
@@ -71,7 +71,7 @@
                     and `create_time` = #{params.createTime,jdbcType=TIMESTAMP}
                 </if>
             </if>
-            and state = 0
+            and is_deleted = 0
         </where>
     </select>
 
@@ -92,12 +92,18 @@
         b.requires_auth,
         b.keep_alive,
         b.create_time,
-        b.`state`
+        b.`is_deleted`
         from rel_role_menu a
-        join menu b on a.menu_id = b.id and b.state = ${@com.foo.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        join menu b on a.menu_id = b.id and b.is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
         where a.role_id in
         <foreach collection="roleIds" close=")" item="item" open="(" separator=",">
             #{item,jdbcType=BIGINT}
         </foreach>
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List" />
+        from `menu`
+        where `is_deleted` = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </select>
 </mapper>

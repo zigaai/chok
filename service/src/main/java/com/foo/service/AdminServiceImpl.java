@@ -1,17 +1,17 @@
-package com.foo.service.impl;
+package com.foo.service;
 
-import java.util.List;
-import org.springframework.stereotype.Service;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import lombok.RequiredArgsConstructor;
-import com.foo.model.entity.Admin;
-import com.foo.model.dto.command.AdminDTO;
-import com.foo.model.vo.AdminVO;
-import com.foo.model.dto.query.AdminQuery;
-import com.foo.model.convertor.AdminConvertor;
 import com.foo.mapper.AdminMapper;
-import com.foo.service.AdminService;
+import com.foo.model.convertor.AdminConvertor;
+import com.foo.model.dto.command.AdminDTO;
+import com.foo.model.dto.query.AdminQuery;
+import com.foo.model.entity.Admin;
+import com.foo.model.vo.AdminVO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * <p>
@@ -23,11 +23,10 @@ import com.foo.service.AdminService;
  */
 @Service
 @RequiredArgsConstructor
-public class AdminServiceImpl implements AdminService {
+public class AdminServiceImpl {
 
     private final AdminMapper adminMapper;
 
-    @Override
     public IPage<AdminVO> page(AdminQuery params) {
         Page<AdminVO> page = new Page<>();
         List<AdminVO> records = adminMapper.listByCondition(page, params);
@@ -35,19 +34,20 @@ public class AdminServiceImpl implements AdminService {
         return page;
     }
 
-    @Override
+    public List<AdminVO> list(AdminQuery params) {
+        return adminMapper.listByCondition(null, params);
+    }
+
     public int add(AdminDTO data) {
         Admin entity = AdminConvertor.INSTANCE.toEntity(data);
         return adminMapper.insert(entity);
     }
 
-    @Override
     public int update(AdminDTO data) {
         Admin entity = AdminConvertor.INSTANCE.toEntity(data);
         return adminMapper.updateById(entity);
     }
 
-    @Override
     public int deleteById(Long id) {
         return adminMapper.deleteById(id);
     }

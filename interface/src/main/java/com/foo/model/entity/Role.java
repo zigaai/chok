@@ -1,12 +1,17 @@
 package com.foo.model.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.util.Date;
-import com.baomidou.mybatisplus.annotation.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.zigaai.model.AuthRole;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -20,7 +25,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @TableName("role")
-public class Role implements Serializable {
+public class Role extends AuthRole implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -55,8 +60,7 @@ public class Role implements Serializable {
     /**
      * 状态: 	0: 正常 	1: 删除 
      */
-    @TableField("state")
-    @TableLogic(value = "0", delval = "1")
-    private Byte state;
+    @TableField("is_deleted")
+    private Boolean isDeleted;
 
 }

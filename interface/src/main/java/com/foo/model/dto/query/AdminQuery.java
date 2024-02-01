@@ -1,13 +1,14 @@
 package com.foo.model.dto.query;
 
-import java.io.Serial;
-import java.io.Serializable;
-import java.time.LocalDateTime;
+import com.zigaai.validation.QueryGroup;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import jakarta.validation.constraints.NotNull;
-import com.foo.model.validation.QueryGroup;
+
+import java.io.Serial;
+import java.io.Serializable;
+import java.util.Date;
 
 /**
  * <p>
@@ -69,11 +70,11 @@ public class AdminQuery implements Serializable {
     /**
      * 创建时间
      */
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 状态: 	0: 正常 	1: 删除 
      */
-    private Byte state;
+    private Boolean isDeleted;
 
 }

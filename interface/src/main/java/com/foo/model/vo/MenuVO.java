@@ -102,6 +102,6 @@ public class MenuVO implements Serializable {
     /**
      * 状态: 	0: 正常 	1: 删除 
      */
-    private Byte state;
+    private Boolean isDeleted;
 
 }

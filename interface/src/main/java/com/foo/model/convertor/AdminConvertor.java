@@ -1,10 +1,10 @@
 package com.foo.model.convertor;
 
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
 import com.foo.model.dto.command.AdminDTO;
 import com.foo.model.entity.Admin;
 import com.foo.model.vo.AdminVO;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
 @Mapper
 public interface AdminConvertor {
@@ -15,8 +15,8 @@ public interface AdminConvertor {
 
     AdminVO toVO(Admin entity);
 
-    Admin toEntity(AdminDTO DTO);
+    Admin toEntity(AdminDTO dto);
 
-    Admin toEntity(AdminVO VO);
+    Admin toEntity(AdminVO vo);
 
 }

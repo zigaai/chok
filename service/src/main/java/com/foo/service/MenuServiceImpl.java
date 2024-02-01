@@ -1,16 +1,21 @@
 package com.foo.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.foo.mapper.MenuMapper;
+import com.foo.mapper.RoleMapper;
 import com.foo.model.convertor.MenuConvertor;
 import com.foo.model.dto.command.MenuDTO;
-import com.foo.model.dto.query.MenuQuery;
 import com.foo.model.entity.Menu;
-import com.foo.model.vo.MenuVO;
+import com.foo.model.entity.Role;
+import com.zigaai.enumeration.TbState;
+import com.zigaai.model.SystemUser;
+import com.zigaai.properties.CustomSecurityProperties;
+import com.zigaai.utils.SecurityUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -25,27 +30,40 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MenuServiceImpl {
 
-    private final MenuMapper MenuMapper;
+    private final MenuMapper menuMapper;
 
-    public IPage<MenuVO> page(MenuQuery params) {
-        Page<MenuVO> page = new Page<>();
-        List<MenuVO> records = MenuMapper.listByCondition(page, params);
-        page.setRecords(records);
-        return page;
+    private final RoleMapper roleMapper;
+
+    private final CustomSecurityProperties customSecurityProperties;
+
+    public List<Menu> listCurrentUser() {
+        SystemUser user = SecurityUtil.currentUser();
+        List<Role> roleList = roleMapper.listBySysUserId(user.getId(), customSecurityProperties.getUserType(user.getUserType()));
+        if (CollectionUtils.isEmpty(roleList)) {
+            return Collections.emptyList();
+        }
+        List<Long> roleIds = roleList.stream().map(Role::getId).toList();
+        if (roleIds.contains(1L)) {
+            return menuMapper.listAll();
+        }
+        return menuMapper.listByRoleIds(roleIds);
     }
 
-    public int add(MenuDTO data) {
+    public int save(MenuDTO data) {
         Menu entity = MenuConvertor.INSTANCE.toEntity(data);
-        return MenuMapper.insert(entity);
+        entity.setIsDeleted(TbState.NORMAL.booleanVal());
+        return menuMapper.insert(entity);
     }
 
     public int update(MenuDTO data) {
         Menu entity = MenuConvertor.INSTANCE.toEntity(data);
-        return MenuMapper.updateById(entity);
+        return menuMapper.updateById(entity);
     }
 
-    public int deleteById(Long id) {
-        return MenuMapper.deleteById(id);
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteByIds(List<Long> ids) {
+        int count = menuMapper.deleteBatchByIds(ids);
+        // AuthenticationService
+        return count;
     }
-
 }

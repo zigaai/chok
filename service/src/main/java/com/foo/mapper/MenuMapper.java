@@ -1,7 +1,7 @@
 package com.foo.mapper;
 
 import com.foo.model.entity.Menu;
-import com.foo.infrastructure.mp.MapperSupport;
+import com.foo.infra.mp.MapperSupport;
 import com.foo.model.vo.MenuVO;
 import com.foo.model.dto.query.MenuQuery;
 import org.apache.ibatis.annotations.Param;
@@ -24,4 +24,5 @@ public interface MenuMapper extends MapperSupport<Menu> {
 
     List<Menu> listByRoleIds(@Param("roleIds") Collection<Long> roleIds);
 
+    List<Menu> listAll();
 }

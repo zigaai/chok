@@ -1,7 +1,7 @@
 package com.foo.mapper;
 
 import com.foo.model.entity.User;
-import com.foo.infrastructure.mp.MapperSupport;
+import com.foo.infra.mp.MapperSupport;
 import com.foo.model.vo.UserVO;
 import com.foo.model.dto.query.UserQuery;
 import org.apache.ibatis.annotations.Param;
@@ -16,8 +16,17 @@ import java.util.List;
  * @author zigaai
  * @since 2023-11-06
  */
-public interface UserMapper extends MapperSupport<User> {
+public interface UserMapper extends MapperSupport<User>, AuthenticationMapper<User> {
 
     List<UserVO> listByCondition(IPage<UserVO> page, @Param("params") UserQuery params, @Param("columns") String... columns);
+
+    @Override
+    User getByUsername(String username);
+
+    @Override
+    int updateSalt(@Param("username") String username, @Param("salt") String salt);
+
+    @Override
+    String getSaltByUsername(@Param("username") String username);
 
 }

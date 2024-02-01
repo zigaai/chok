@@ -1,19 +1,22 @@
-plugins {
-    id 'java'
-}
-
-group = 'com.foo'
-version = '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation "org.springframework.boot:spring-boot-starter-security"
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
+    implementation 'com.baomidou:mybatis-plus-boot-starter'
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'com.mysql:mysql-connector-j'
+    implementation 'org.apache.commons:commons-lang3'
+    implementation 'org.apache.commons:commons-pool2'
+    implementation 'com.nimbusds:nimbus-jose-jwt'
+    implementation 'com.google.guava:guava'
 
-test {
-    useJUnitPlatform()
+    implementation 'com.zigaai:common-core:0.0.1'
+    implementation 'com.zigaai:common-security:0.0.1'
+
+    implementation project(":interface")
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

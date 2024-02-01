@@ -3,7 +3,7 @@
   <component name="MyBatisCodeHelperDatasource">
     <option name="activeDatabaseInfo">
       <NewDatabaseInfo>
-        <option name="database" value="restaurant" />
+        <option name="database" value="chok" />
         <option name="databaseType" value="MySql" />
         <option name="driverClass" value="" />
         <option name="driverPath" value="" />
@@ -15,7 +15,7 @@
     <option name="databaseInfos">
       <list>
         <NewDatabaseInfo>
-          <option name="database" value="restaurant" />
+          <option name="database" value="chok" />
           <option name="databaseType" value="MySql" />
           <option name="driverClass" value="" />
           <option name="driverPath" value="" />
@@ -38,12 +38,12 @@
         <option name="javaMapperPath" value="$PROJECT_DIR$/interface/src/main/java" />
         <option name="javaModelPackage" value="com.foo.model.entity" />
         <option name="javaModelPath" value="$PROJECT_DIR$/interface/src/main/java" />
-        <option name="lastDatabaseCrudChooseModuleName" value="restaurant.interface.main" />
+        <option name="lastDatabaseCrudChooseModuleName" value="chok.interface.main" />
         <option name="lombokGetterSetterAnnotation" value="true" />
         <option name="modelAddToString" value="true" />
         <option name="moduleNameToPackageAndPathMap">
           <map>
-            <entry key="restaurant.interface.main">
+            <entry key="chok.interface.main">
               <value>
                 <UserPackageAndPathInfoByModule>
                   <option name="javaMapperPackage" value="com.foo.mapper" />
@@ -61,8 +61,8 @@
           </map>
         </option>
         <option name="tableGenerateConfigs">
-          <map>
-            <entry key="restaurant:admin">
+          <map>d
+            <entry key="chok:admin">
               <value>
                 <TableGenerateConfig>
                   <option name="batchInsert" value="true" />
@@ -78,7 +78,7 @@
                   <option name="insertMethodEnabled" value="false" />
                   <option name="insertSelectiveMethodEnabled" value="false" />
                   <option name="javaModelName" value="Admin" />
-                  <option name="moduleName" value="restaurant.interface.main" />
+                  <option name="moduleName" value="chok.interface.main" />
                   <option name="sequenceColumn" value="" />
                   <option name="sequenceId" value="" />
                   <option name="updateByPrimaryKeySelectiveEnabled" value="false" />

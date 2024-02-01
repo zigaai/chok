@@ -1,2 +1,4 @@
-package com.foo.model.validation;public class QueryGroup {
-}
+// package com.zigaai.validation;
+//
+// public interface QueryGroup {
+// }

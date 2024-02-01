@@ -1,4 +1,4 @@
-package com.foo.infrastructure.mp;
+package com.foo.infra.mp;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.toolkit.Constants;

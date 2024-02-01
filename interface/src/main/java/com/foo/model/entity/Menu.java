@@ -1,13 +1,20 @@
 package com.foo.model.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.zigaai.model.AuthMenu;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -21,7 +28,7 @@ import java.util.Date;
 @Setter
 @ToString
 @TableName("menu")
-public class Menu implements Serializable {
+public class Menu extends AuthMenu implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -54,7 +61,7 @@ public class Menu implements Serializable {
     private String icon;
 
     /**
-     * 权限类型: 	1: 页面 	2: 按钮 	3: 特殊权限 
+     * 权限类型: 	1: 页面 	2: 按钮 	3: 特殊权限
      */
     @TableField("permission_type")
     private Byte permissionType;
@@ -78,7 +85,7 @@ public class Menu implements Serializable {
     private String component;
 
     /**
-     * 路由是否固定: 	0: 否 	1: 是 
+     * 路由是否固定: 	0: 否 	1: 是
      */
     @TableField("affix")
     private Byte affix;
@@ -90,19 +97,19 @@ public class Menu implements Serializable {
     private Integer sort;
 
     /**
-     * 是否隐藏: 	0: 否 	1: 是 
+     * 是否隐藏: 	0: 否 	1: 是
      */
     @TableField("hide")
     private Byte hide;
 
     /**
-     * 是否需要权限控制: 	0: 否; 	1: 是; 
+     * 是否需要权限控制: 	0: 否; 	1: 是;
      */
     @TableField("requires_auth")
     private Byte requiresAuth;
 
     /**
-     * 是否缓存页面: 	0: 否; 	1: 是; 
+     * 是否缓存页面: 	0: 否; 	1: 是;
      */
     @TableField("keep_alive")
     private Byte keepAlive;
@@ -114,10 +121,43 @@ public class Menu implements Serializable {
     private Date createTime;
 
     /**
-     * 状态: 	0: 正常 	1: 删除 
+     * 状态: 	0: 正常 	1: 删除
      */
-    @TableField("state")
-    @TableLogic(value = "0", delval = "1")
-    private Byte state;
+    @TableField("is_deleted")
+    private Boolean isDeleted;
 
+    @Getter
+    @ToString
+    @RequiredArgsConstructor
+    public enum PermissionType {
+        /**
+         * 菜单
+         */
+        MENU((byte) 1),
+
+        /**
+         * 按钮
+         */
+        BUTTON((byte) 2),
+
+        /**
+         * 特殊权限
+         */
+        SPECIAL((byte) 3);
+
+        private final byte val;
+
+        private static final Map<Byte, PermissionType> MAP = Collections.unmodifiableMap(Arrays.stream(values()).collect(Collectors.toMap(PermissionType::getVal, Function.identity())));
+
+        public static boolean contains(Byte val) {
+            return MAP.containsKey(val);
+        }
+
+        public static PermissionType getByVal(Byte val) {
+            if (!contains(val)) {
+                throw new IllegalArgumentException("非法的权限类型: " + val);
+            }
+            return MAP.get(val);
+        }
+    }
 }

@@ -1,2 +1,4 @@
-package com.foo.model.validation;public interface DeleteGroup {
-}
+// package com.zigaai.validation;
+//
+// public interface DeleteGroup {
+// }

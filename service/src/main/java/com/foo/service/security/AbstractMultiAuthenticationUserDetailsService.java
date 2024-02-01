@@ -1,14 +1,15 @@
-package com.foo.service;
+package com.foo.service.security;
 
 import com.foo.constants.RedisConstant;
-import com.foo.infra.security.AuthenticationModel;
-import com.foo.infra.security.MultiAuthenticationUserDetailsService;
-import com.foo.infra.security.SystemUser;
 import com.foo.mapper.AuthenticationMapper;
-import com.foo.mapper.PagePermissionMapper;
+import com.foo.mapper.MenuMapper;
 import com.foo.mapper.RoleMapper;
-import com.foo.model.entity.PagePermission;
+import com.foo.model.entity.Menu;
 import com.foo.model.entity.Role;
+import com.zigaai.model.AuthenticationModel;
+import com.zigaai.model.SystemUser;
+import com.zigaai.properties.CustomSecurityProperties;
+import com.zigaai.service.MultiAuthenticationUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,13 +27,16 @@ public abstract class AbstractMultiAuthenticationUserDetailsService<T extends Au
 
     private final RoleMapper roleMapper;
 
-    private final PagePermissionMapper pagePermissionMapper;
+    private final MenuMapper menuMapper;
 
     private final RedisTemplate<String, Object> redisTemplate;
 
+    private final CustomSecurityProperties securityProperties;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String key = RedisConstant.SYS_USER_INFO.apply(getKey().name(), username);
+        CustomSecurityProperties.Context userType = securityProperties.getUserType(getKey());
+        String key = RedisConstant.SYS_USER_INFO(getKey(), username);
         SystemUser systemUser = (SystemUser) redisTemplate.opsForValue().get(key);
         if (systemUser != null) {
             return systemUser;
@@ -41,17 +45,17 @@ public abstract class AbstractMultiAuthenticationUserDetailsService<T extends Au
         if (sysUser == null) {
             throw new UsernameNotFoundException("系统用户不存在");
         }
-        List<Role> roleList = roleMapper.listBySysUserId(sysUser.getId(), getKey());
-        List<PagePermission> pagePermissionList = Collections.emptyList();
+        List<Role> roleList = roleMapper.listBySysUserId(sysUser.getId(), userType);
+        List<Menu> menuList = Collections.emptyList();
         if (!CollectionUtils.isEmpty(roleList)) {
             List<Long> roleIdList = roleList.stream().map(Role::getId).toList();
-            pagePermissionList = pagePermissionMapper.listByRoleIds(roleIdList);
+            menuList = menuMapper.listByRoleIds(roleIdList);
         }
-        systemUser = this.buildSystemUser(sysUser, roleList, pagePermissionList);
-        redisTemplate.opsForValue().set(key, systemUser, 3, TimeUnit.DAYS);
+        systemUser = this.buildSystemUser(sysUser, roleList, menuList);
+        redisTemplate.opsForValue().set(key, systemUser, securityProperties.getToken().getRefreshTimeToLive(), TimeUnit.SECONDS);
         return systemUser;
     }
 
-    protected abstract SystemUser buildSystemUser(T sysUser, List<Role> roleList, List<PagePermission> pagePermissionList);
+    protected abstract SystemUser buildSystemUser(T sysUser, List<Role> roleList, List<Menu> menuList);
 
 }

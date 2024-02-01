@@ -1,4 +1,4 @@
-package com.zigaai.common.core.config;
+package com.foo.config;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;

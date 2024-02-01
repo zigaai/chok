@@ -1,19 +1,71 @@
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
+
+buildscript {
+    ext {
+        mapstruct_version = '1.5.5.Final'
+        springboot_version = '3.2.0'
+        mysql_version = '8.0.33'
+        mybatis_plus_version = '3.5.4.1'
+        mybatis_spring_boot_version = '3.0.3'
+        nimbus_jose_jwt_version = '9.37'
+        guava_version = '32.1.2-jre'
+    }
+}
+
 plugins {
-    id 'java'
+    id 'org.springframework.boot' version "${springboot_version}"
+    id "io.spring.dependency-management" version "1.1.3"
+    id 'com.bmuschko.docker-spring-boot-application' version "9.3.6" apply false
 }
 
-group = 'com.foo'
-version = '1.0-SNAPSHOT'
+allprojects {
+    group = 'com.foo'
+    version = '0.0.1'
 
-repositories {
-    mavenCentral()
+    repositories {
+        mavenLocal()
+        maven { url 'https://mirrors.cloud.tencent.com/nexus/repository/maven-public/' }
+        maven { url 'https://maven.aliyun.com/repository/public' }
+        mavenCentral()
+    }
+
+    tasks.withType(JavaCompile).configureEach {
+        options.encoding = "UTF-8"
+    }
 }
 
-dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
+subprojects {
 
-test {
-    useJUnitPlatform()
+    apply plugin: 'java'
+    apply plugin: 'java-library'
+    apply plugin: 'io.spring.dependency-management'
+
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+
+    dependencyManagement {
+        imports {
+            mavenBom SpringBootPlugin.BOM_COORDINATES
+            mavenBom "org.springframework.boot:spring-boot-dependencies:${springboot_version}"
+        }
+
+        dependencies {
+            dependency "org.mybatis.spring.boot:mybatis-spring-boot-starter:${mybatis_spring_boot_version}"
+            dependency "com.baomidou:mybatis-plus-boot-starter:${mybatis_plus_version}"
+            dependency "com.baomidou:mybatis-plus-annotation:${mybatis_plus_version}"
+            dependency "com.mysql:mysql-connector-j:${mysql_version}"
+            dependency "com.nimbusds:nimbus-jose-jwt:${nimbus_jose_jwt_version}"
+            dependency "com.google.guava:guava:${guava_version}"
+        }
+    }
+
+    dependencies {
+        compileOnly "org.projectlombok:lombok"
+        annotationProcessor "org.projectlombok:lombok"
+
+        implementation "org.mapstruct:mapstruct:${mapstruct_version}"
+        annotationProcessor "org.mapstruct:mapstruct-processor:${mapstruct_version}"
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-engine'
+    }
 }

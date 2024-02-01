@@ -1,6 +1,6 @@
 package com.foo.model.dto.query;
 
-import com.foo.model.validation.QueryGroup;
+import com.zigaai.validation.QueryGroup;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -105,6 +105,5 @@ public class MenuQuery implements Serializable {
     /**
      * 状态: 	0: 正常 	1: 删除 
      */
-    private Byte state;
-
+    private Boolean isDeleted;
 }

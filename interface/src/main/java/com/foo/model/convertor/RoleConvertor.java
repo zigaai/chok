@@ -15,8 +15,8 @@ public interface RoleConvertor {
 
     RoleVO toVO(Role entity);
 
-    Role toEntity(RoleDTO DTO);
+    Role toEntity(RoleDTO dto);
 
-    Role toEntity(RoleVO VO);
+    Role toEntity(RoleVO vo);
 
 }

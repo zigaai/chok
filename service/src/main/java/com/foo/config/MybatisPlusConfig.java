@@ -1,4 +1,4 @@
-package cn.zigaai.infrastructure.config;
+package com.foo.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
@@ -7,8 +7,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@Configuration
-@MapperScan("cn.zigaai.mapper")
+@Configuration(proxyBeanMethods = false)
+@MapperScan("com.foo.mapper")
 public class MybatisPlusConfig {
 
     /**

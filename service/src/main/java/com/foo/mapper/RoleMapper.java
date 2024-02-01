@@ -1,11 +1,13 @@
 package com.foo.mapper;
 
-import com.foo.model.entity.Role;
-import com.foo.infrastructure.mp.MapperSupport;
-import com.foo.model.vo.RoleVO;
-import com.foo.model.dto.query.RoleQuery;
-import org.apache.ibatis.annotations.Param;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.foo.infra.mp.MapperSupport;
+import com.foo.model.dto.query.RoleQuery;
+import com.foo.model.entity.Role;
+import com.foo.model.vo.RoleVO;
+import com.zigaai.properties.CustomSecurityProperties;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -19,5 +21,7 @@ import java.util.List;
 public interface RoleMapper extends MapperSupport<Role> {
 
     List<RoleVO> listByCondition(IPage<RoleVO> page, @Param("params") RoleQuery params, @Param("columns") String... columns);
+
+    List<Role> listBySysUserId(@Param("userId") Long userId, @Param("userType") CustomSecurityProperties.Context userType);
 
 }

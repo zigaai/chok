@@ -1,2 +1,4 @@
-package com.foo.model.validation;public class UpdateGroup {
-}
+// package com.zigaai.validation;
+//
+// public interface UpdateGroup {
+// }

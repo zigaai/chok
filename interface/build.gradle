@@ -1,19 +1,15 @@
-plugins {
-    id 'java'
-}
-
-group = 'com.foo'
-version = '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-}
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'com.baomidou:mybatis-plus-annotation'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'org.hibernate.validator:hibernate-validator'
+    implementation 'org.apache.commons:commons-lang3'
+//    implementation 'com.nimbusds:nimbus-jose-jwt'
 
-test {
-    useJUnitPlatform()
+    implementation 'com.zigaai:common-core:0.0.1'
+
+//    compileOnly 'jakarta.servlet:jakarta.servlet-api'
+//    compileOnly 'org.springframework:spring-web'
+//    compileOnly 'org.springframework.boot:spring-boot'
+//    compileOnly 'org.springframework.security:spring-security-web'
 }

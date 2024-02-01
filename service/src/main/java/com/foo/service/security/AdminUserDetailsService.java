@@ -1,13 +1,13 @@
-package com.foo.service;
+package com.foo.service.security;
 
-import com.foo.enumeration.SysUserType;
-import com.foo.infra.security.SystemUser;
 import com.foo.mapper.AdminMapper;
-import com.foo.mapper.PagePermissionMapper;
+import com.foo.mapper.MenuMapper;
 import com.foo.mapper.RoleMapper;
 import com.foo.model.entity.Admin;
-import com.foo.model.entity.PagePermission;
+import com.foo.model.entity.Menu;
 import com.foo.model.entity.Role;
+import com.zigaai.model.SystemUser;
+import com.zigaai.properties.CustomSecurityProperties;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
@@ -18,19 +18,20 @@ public class AdminUserDetailsService extends AbstractMultiAuthenticationUserDeta
 
     public AdminUserDetailsService(AdminMapper adminMapper,
                                    RoleMapper roleMapper,
-                                   PagePermissionMapper pagePermissionMapper,
-                                   RedisTemplate<String, Object> redisTemplate) {
-        super(adminMapper, roleMapper, pagePermissionMapper, redisTemplate);
+                                   MenuMapper menuMapper,
+                                   RedisTemplate<String, Object> redisTemplate,
+                                   CustomSecurityProperties securityProperties) {
+        super(adminMapper, roleMapper, menuMapper, redisTemplate, securityProperties);
     }
 
     @Override
-    public SysUserType getKey() {
-        return SysUserType.ADMIN;
+    public String getKey() {
+        return "admin";
     }
 
     @Override
-    protected SystemUser buildSystemUser(Admin admin, List<Role> roleList, List<PagePermission> pagePermissionList) {
-        return SystemUser.of(admin, roleList, pagePermissionList);
+    protected SystemUser buildSystemUser(Admin admin, List<Role> roleList, List<Menu> menuList) {
+        return SystemUser.of(admin, roleList, menuList);
     }
 
 }

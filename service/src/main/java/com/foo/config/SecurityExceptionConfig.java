@@ -9,7 +9,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 
 @Configuration(proxyBeanMethods = false)
 @RequiredArgsConstructor
-public class ExceptionConfig {
+public class SecurityExceptionConfig {
 
     private final MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
 
@@ -22,4 +22,5 @@ public class ExceptionConfig {
     public DefaultAuthenticationEntryPoint defaultAuthenticationEntryPoint() {
         return new DefaultAuthenticationEntryPoint(jackson2HttpMessageConverter);
     }
+
 }

@@ -1,2 +1,4 @@
-rootProject.name = 'restaurant'
+rootProject.name = 'chok'
+include 'interface'
+include 'service'
 
