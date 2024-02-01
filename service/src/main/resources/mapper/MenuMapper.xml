@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foo.mapper.MenuMapper">
+
+    <resultMap id="VOResultMap" type="com.foo.model.vo.MenuVO">
+        <!--@Table `menu` -->
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <result column="parent_id" jdbcType="BIGINT" property="parentId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="title" jdbcType="VARCHAR" property="title" />
+        <result column="icon" jdbcType="VARCHAR" property="icon" />
+        <result column="permission_type" jdbcType="TINYINT" property="permissionType" />
+        <result column="path" jdbcType="VARCHAR" property="path" />
+        <result column="redirect" jdbcType="VARCHAR" property="redirect" />
+        <result column="component" jdbcType="VARCHAR" property="component" />
+        <result column="affix" jdbcType="BIT" property="affix" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <result column="hide" jdbcType="BIT" property="hide" />
+        <result column="requires_auth" jdbcType="BIT" property="requiresAuth" />
+        <result column="keep_alive" jdbcType="BIT" property="keepAlive" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="state" jdbcType="BIT" property="state" />
+    </resultMap>
+
+    <select id="listByCondition" resultMap="VOResultMap">
+        select
+        <include refid="Dynamic_Column"/>
+        from `menu`
+        <where>
+            <if test="params != null">
+                <if test="params.parentId != null">
+                    and `parent_id` = #{params.parentId,jdbcType=BIGINT}
+                </if>
+                <if test="params.name != null and params.name != ''">
+                    and `name` = #{params.name,jdbcType=VARCHAR}
+                </if>
+                <if test="params.title != null and params.title != ''">
+                    and `title` = #{params.title,jdbcType=VARCHAR}
+                </if>
+                <if test="params.icon != null and params.icon != ''">
+                    and `icon` = #{params.icon,jdbcType=VARCHAR}
+                </if>
+                <if test="params.permissionType != null">
+                    and `permission_type` = #{params.permissionType,jdbcType=TINYINT}
+                </if>
+                <if test="params.path != null and params.path != ''">
+                    and `path` = #{params.path,jdbcType=VARCHAR}
+                </if>
+                <if test="params.redirect != null and params.redirect != ''">
+                    and `redirect` = #{params.redirect,jdbcType=VARCHAR}
+                </if>
+                <if test="params.component != null and params.component != ''">
+                    and `component` = #{params.component,jdbcType=VARCHAR}
+                </if>
+                <if test="params.affix != null">
+                    and `affix` = #{params.affix,jdbcType=BIT}
+                </if>
+                <if test="params.sort != null">
+                    and `sort` = #{params.sort,jdbcType=INTEGER}
+                </if>
+                <if test="params.hide != null">
+                    and `hide` = #{params.hide,jdbcType=BIT}
+                </if>
+                <if test="params.requiresAuth != null">
+                    and `requires_auth` = #{params.requiresAuth,jdbcType=BIT}
+                </if>
+                <if test="params.keepAlive != null">
+                    and `keep_alive` = #{params.keepAlive,jdbcType=BIT}
+                </if>
+                <if test="params.createTime != null">
+                    and `create_time` = #{params.createTime,jdbcType=TIMESTAMP}
+                </if>
+            </if>
+            and state = 0
+        </where>
+    </select>
+
+    <select id="listByRoleIds" resultMap="BaseResultMap">
+        select
+        b.id,
+        b.parent_id,
+        b.`name`,
+        b.title,
+        b.icon,
+        b.permission_type,
+        b.`path`,
+        b.redirect,
+        b.`component`,
+        b.affix,
+        b.sort,
+        b.hide,
+        b.requires_auth,
+        b.keep_alive,
+        b.create_time,
+        b.`state`
+        from rel_role_menu a
+        join menu b on a.menu_id = b.id and b.state = ${@com.foo.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        where a.role_id in
+        <foreach collection="roleIds" close=")" item="item" open="(" separator=",">
+            #{item,jdbcType=BIGINT}
+        </foreach>
+    </select>
+</mapper>
