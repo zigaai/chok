@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.foo.mapper.AdminMapper">
+<mapper namespace="com.zigaai.mapper.AdminMapper">
     <!--@Table `admin`-->
-    <resultMap id="BaseResultMap" type="com.foo.model.entity.Admin">
+    <resultMap id="BaseResultMap" type="com.zigaai.model.entity.Admin">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="username" jdbcType="VARCHAR" property="username" />
         <result column="password" jdbcType="VARCHAR" property="password" />
@@ -19,7 +19,7 @@
         id, username, `password`, salt, nick_name, real_name, phone, avatar, create_time, is_deleted
     </sql>
 
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.foo.model.entity.Admin" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.model.entity.Admin" useGeneratedKeys="true">
         insert into `admin`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -87,7 +87,7 @@
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.foo.model.entity.Admin">
+    <update id="updateById" parameterType="com.zigaai.model.entity.Admin">
       update `admin`
       <set>
         <if test="et.username != null">

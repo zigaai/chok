@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.foo.mapper.RoleMapper">
+<mapper namespace="com.zigaai.mapper.RoleMapper">
     <!--@Table `role`-->
-    <resultMap id="BaseResultMap" type="com.foo.model.entity.Role">
+    <resultMap id="BaseResultMap" type="com.zigaai.model.entity.Role">
         <id column="id" jdbcType="BIGINT" property="id" />
         <result column="role_code" jdbcType="VARCHAR" property="roleCode" />
         <result column="role_name" jdbcType="VARCHAR" property="roleName" />
@@ -15,7 +15,7 @@
         id, role_code, role_name, role_description, create_time, is_deleted
     </sql>
 
-    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.foo.model.entity.Role" useGeneratedKeys="true">
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.model.entity.Role" useGeneratedKeys="true">
         insert into `role`
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="id != null">
@@ -59,7 +59,7 @@
         </trim>
     </insert>
 
-    <update id="updateById" parameterType="com.foo.model.entity.Role">
+    <update id="updateById" parameterType="com.zigaai.model.entity.Role">
       update `role`
       <set>
         <if test="et.roleCode != null">
