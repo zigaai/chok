@@ -1,7 +1,7 @@
 package com.zigaai.service.security;
 
 import com.zigaai.constants.RedisConstant;
-import com.zigaai.infra.security.AuthenticationService;
+import com.zigaai.infra.service.AuthenticationService;
 import com.zigaai.mapper.AuthenticationMapper;
 import com.zigaai.model.security.AuthenticationModel;
 import com.zigaai.security.model.SystemUser;

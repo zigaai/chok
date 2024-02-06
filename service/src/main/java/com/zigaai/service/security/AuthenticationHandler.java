@@ -3,7 +3,7 @@ package com.zigaai.service.security;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.zigaai.constants.RedisConstant;
 import com.zigaai.constants.SecurityConstant;
-import com.zigaai.infra.security.AuthenticationService;
+import com.zigaai.infra.service.AuthenticationService;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSObject;
 import com.zigaai.exception.RefreshTokenExpiredException;

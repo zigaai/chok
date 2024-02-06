@@ -1,8 +1,12 @@
 package com.zigaai.config;
 
+import com.zigaai.security.filter.JwtFilter;
 import com.zigaai.security.handler.DefaultAccessDeniedHandler;
 import com.zigaai.security.handler.DefaultAuthenticationEntryPoint;
+import com.zigaai.security.properties.CustomSecurityProperties;
+import com.zigaai.security.service.MultiAuthenticationUserDetailsService;
 import com.zigaai.security.service.TokenCacheService;
+import com.zigaai.strategy.StrategyFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,6 +20,10 @@ public class SecurityExtensionConfig {
     private final MappingJackson2HttpMessageConverter jackson2HttpMessageConverter;
 
     private final RedisTemplate<String, Object> redisTemplate;
+
+    private final StrategyFactory<String, MultiAuthenticationUserDetailsService> userDetailsServiceStrategy;
+
+    private final CustomSecurityProperties securityProperties;
 
     @Bean
     public DefaultAccessDeniedHandler defaultAccessDeniedHandler() {
@@ -32,4 +40,8 @@ public class SecurityExtensionConfig {
         return new TokenCacheService(redisTemplate);
     }
 
+    @Bean
+    public JwtFilter jwtFilter() {
+        return new JwtFilter(userDetailsServiceStrategy, securityProperties);
+    }
 }

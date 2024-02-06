@@ -59,6 +59,7 @@ subprojects {
             dependency "com.zigaai:common-core:${common_version}"
             dependency "com.zigaai:common-db:${common_version}"
             dependency "com.zigaai:common-security:${common_version}"
+            dependency "com.zigaai:common-oauth2:${common_version}"
         }
     }
 

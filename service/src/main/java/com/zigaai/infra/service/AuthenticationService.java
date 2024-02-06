@@ -1,4 +1,4 @@
-package com.zigaai.infra.security;
+package com.zigaai.infra.service;
 
 import com.zigaai.security.model.SystemUser;
 import com.zigaai.strategy.Strategy;

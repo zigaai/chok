@@ -3,8 +3,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation "org.springframework.boot:spring-boot-starter-security"
-//     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter'
     implementation 'com.baomidou:mybatis-plus-spring-boot3-starter'
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'com.mysql:mysql-connector-j'
@@ -12,10 +10,13 @@ dependencies {
     implementation 'org.apache.commons:commons-pool2'
     implementation 'com.nimbusds:nimbus-jose-jwt'
     implementation 'com.google.guava:guava'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.security:spring-security-oauth2-authorization-server'
 
     implementation 'com.zigaai:common-core'
     implementation 'com.zigaai:common-db'
     implementation 'com.zigaai:common-security'
+    implementation 'com.zigaai:common-oauth2'
 
     implementation project(":interface")
 
