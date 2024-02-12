@@ -31,6 +31,8 @@ import java.security.KeyPair;
 import java.security.NoSuchAlgorithmException;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -42,10 +44,6 @@ public class Oauth2ExtensionConfig {
     private final RedisTemplate<String, Object> redisTemplate;
 
     private final Oauth2RegisteredClientMapper oauth2RegisteredClientMapper;
-
-    private final CustomSecurityProperties securityProperties;
-
-    private final Oauth2AuthenticationService oauth2AuthenticationService;
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
@@ -60,34 +58,5 @@ public class Oauth2ExtensionConfig {
     @Bean
     public RedisOAuth2AuthorizationConsentService redisOAuth2AuthorizationConsentService() {
         return new RedisOAuth2AuthorizationConsentService(redisTemplate);
-    }
-
-    @Bean
-    public JwtDecoder jwtDecoder(JWKSource<SecurityContext> jwkSource) {
-        Set<JWSAlgorithm> jwsAlgs = new HashSet<>();
-        jwsAlgs.addAll(JWSAlgorithm.Family.RSA);
-        jwsAlgs.addAll(JWSAlgorithm.Family.EC);
-        jwsAlgs.addAll(JWSAlgorithm.Family.HMAC_SHA);
-        ConfigurableJWTProcessor<SecurityContext> jwtProcessor = new DefaultJWTProcessor<>();
-        JWSKeySelector<SecurityContext> jwsKeySelector =
-                new JWSVerificationKeySelector<>(jwsAlgs, jwkSource);
-        jwtProcessor.setJWSKeySelector(jwsKeySelector);
-        // Override the default Nimbus claims set verifier as NimbusJwtDecoder handles it instead
-        jwtProcessor.setJWTClaimsSetVerifier((claims, context) -> {
-        });
-        NimbusJwtDecoder decoder = new NimbusJwtDecoder(jwtProcessor);
-        decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(Arrays.asList(new JwtTimestampValidator(), new JwtSaltValidator(oauth2AuthenticationService))));
-        return decoder;
-    }
-
-    @Bean
-    public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException, InvalidKeySpecException {
-        KeyPair keyPairs = securityProperties.getKeyPairs();
-        RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPairs.getPublic())
-                .privateKey(keyPairs.getPrivate())
-                // .keyID(uuid)
-                .build();
-        JWKSet jwkSet = new JWKSet(rsaKey);
-        return new ImmutableJWKSet<>(jwkSet);
     }
 }

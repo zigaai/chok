@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.nimbusds.jose.JOSEException;
 import com.zigaai.model.common.ResponseData;
 import com.zigaai.model.security.UPMSToken;
+import com.zigaai.security.model.SystemUserVO;
 import com.zigaai.security.utils.SecurityUtil;
 import com.zigaai.service.security.AuthenticationHandler;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,9 +32,8 @@ public class AuthenticationController {
      */
     @GetMapping("/info")
     public ResponseData<Object> getInfo() {
-        // SystemUserVO info = authenticationHandler.getInfo();
-        Object authentication = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseData.success(authentication);
+        SystemUserVO info = authenticationHandler.getInfo();
+        return ResponseData.success(info);
     }
 
     /**
@@ -45,15 +45,15 @@ public class AuthenticationController {
         return ResponseData.success(count);
     }
 
-    /**
-     * 刷新Token
-     *
-     * @param refreshToken 刷新token
-     */
-    @PostMapping("/refreshToken")
-    public ResponseData<UPMSToken> refreshToken(@RequestParam("refreshToken") String refreshToken) throws JsonProcessingException, JOSEException, NoSuchAlgorithmException, InvalidKeySpecException {
-        UPMSToken token = authenticationHandler.refreshToken(refreshToken);
-        return ResponseData.success(token);
-    }
+    // /**
+    //  * 刷新Token
+    //  *
+    //  * @param refreshToken 刷新token
+    //  */
+    // @PostMapping("/refreshToken")
+    // public ResponseData<UPMSToken> refreshToken(@RequestParam("refreshToken") String refreshToken) throws JsonProcessingException, JOSEException, NoSuchAlgorithmException, InvalidKeySpecException {
+    //     UPMSToken token = authenticationHandler.refreshToken(refreshToken);
+    //     return ResponseData.success(token);
+    // }
 
 }

@@ -11,7 +11,6 @@ public class AdminAuthenticationService extends AbstractAuthenticationService<Ad
     public AdminAuthenticationService(AdminMapper adminMapper,
                                       TokenCacheService tokenCacheService) {
         super(adminMapper, tokenCacheService);
-        System.out.println("初始化authentication...");
     }
 
     @Override
