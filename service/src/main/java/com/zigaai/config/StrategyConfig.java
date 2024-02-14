@@ -1,6 +1,5 @@
 package com.zigaai.config;
 
-import com.zigaai.infra.service.AuthenticationService;
 import com.zigaai.security.enumeration.LoginType;
 import com.zigaai.security.processor.LoginProcessor;
 import com.zigaai.security.service.MultiAuthenticationUserDetailsService;
@@ -22,12 +21,6 @@ public class StrategyConfig {
     @DependsOn({"usernamePasswordProcessor"})
     public StrategyFactory<LoginType, LoginProcessor> loginTypeLoginProcessorStrategy() {
         return new StrategyFactory<>(LoginProcessor.class);
-    }
-
-    @Bean
-    @DependsOn({"adminAuthenticationService", "normalUserAuthenticationService"})
-    public StrategyFactory<String, AuthenticationService> authenticationServiceStrategy() {
-        return new StrategyFactory<>(AuthenticationService.class);
     }
 
 }

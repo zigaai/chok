@@ -11,6 +11,7 @@ import com.zigaai.security.model.SystemUser;
 import com.zigaai.security.properties.CustomSecurityProperties;
 import com.zigaai.security.service.MultiAuthenticationUserDetailsService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -54,6 +55,18 @@ public abstract class AbstractMultiAuthenticationUserDetailsService<T extends Au
         systemUser = this.buildSystemUser(sysUser, roleList, menuList);
         redisTemplate.opsForValue().set(key, systemUser, securityProperties.getToken().getRefreshTimeToLive(), TimeUnit.SECONDS);
         return systemUser;
+    }
+
+    @Override
+    public String getSaltByUsername(String username) {
+        String key = RedisConstant.USER_SALT(getKey(), username);
+        String salt = (String) redisTemplate.opsForValue().get(key);
+        if (StringUtils.isNoneBlank(salt)) {
+            return salt;
+        }
+        salt = authenticationMapper.getSaltByUsername(username);
+        redisTemplate.opsForValue().set(key, salt, 3, TimeUnit.DAYS);
+        return salt;
     }
 
     protected abstract SystemUser buildSystemUser(T sysUser, List<Role> roleList, List<Menu> menuList);

@@ -12,6 +12,10 @@ dependencies {
     implementation 'com.google.guava:guava'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.security:spring-security-oauth2-authorization-server'
+    implementation "io.grpc:grpc-core:${grpc_version}"
+    implementation 'net.devh:grpc-server-spring-boot-starter'
+    implementation 'net.devh:grpc-client-spring-boot-starter'
+    implementation "cn.hutool:hutool-crypto"
 
     implementation 'com.zigaai:common-core'
     implementation 'com.zigaai:common-db'

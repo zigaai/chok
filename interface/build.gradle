@@ -1,15 +1,69 @@
+plugins {
+    id 'com.google.protobuf'
+    id 'maven-publish'
+//     id 'idea'
+}
+
 dependencies {
     implementation 'org.slf4j:slf4j-api'
     implementation 'com.baomidou:mybatis-plus-annotation'
     implementation 'com.fasterxml.jackson.core:jackson-databind'
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'org.apache.commons:commons-lang3'
-//    implementation 'com.nimbusds:nimbus-jose-jwt'
+    implementation "io.grpc:grpc-protobuf"
+    implementation "io.grpc:grpc-stub"
+    compileOnly 'jakarta.annotation:jakarta.annotation-api:1.3.5'
 
     implementation 'com.zigaai:common-core'
-
-//    compileOnly 'jakarta.servlet:jakarta.servlet-api'
-//    compileOnly 'org.springframework:spring-web'
-//    compileOnly 'org.springframework.boot:spring-boot'
-//    compileOnly 'org.springframework.security:spring-security-web'
 }
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:${protobuf_version}"
+    }
+//     generatedFilesBaseDir = "$projectDir/src/generated"
+//     clean {
+//         delete generatedFilesBaseDir
+//     }
+    plugins {
+        grpc {
+            artifact = "io.grpc:protoc-gen-grpc-java:${grpc_version}"
+        }
+    }
+    generateProtoTasks {
+        all()*.plugins {
+            grpc {}
+        }
+    }
+}
+
+sourceSets {
+  main {
+    proto {
+      // In addition to the default 'src/main/proto'
+      srcDir 'src/main/protobuf'
+      srcDir 'src/main/java'
+    }
+  }
+}
+
+publishing {
+    publications {
+        jar(MavenPublication) {
+            groupId project.group
+            artifactId "${rootProject.name}-${project.name}"
+            version project.version
+
+            from components.java
+        }
+    }
+}
+
+// idea {
+//     module {
+//         sourceDirs += file("src/generated/main/java")
+//         sourceDirs += file("src/generated/main/grpc")
+//         generatedSourceDirs += file("src/generated/main/java")
+//         generatedSourceDirs += file("src/generated/main/grpc")
+//     }
+// }

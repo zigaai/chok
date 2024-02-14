@@ -1,20 +1,15 @@
 package com.zigaai.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.nimbusds.jose.JOSEException;
 import com.zigaai.model.common.ResponseData;
-import com.zigaai.model.security.UPMSToken;
+import com.zigaai.security.converter.SystemUserConvertor;
+import com.zigaai.security.model.SystemUser;
 import com.zigaai.security.model.SystemUserVO;
 import com.zigaai.security.utils.SecurityUtil;
-import com.zigaai.service.security.AuthenticationHandler;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.*;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 权限相关接口
@@ -25,25 +20,24 @@ import java.security.spec.InvalidKeySpecException;
 @RequestMapping
 public class AuthenticationController {
 
-    private final AuthenticationHandler authenticationHandler;
-
     /**
      * 获取当前用户信息
      */
     @GetMapping("/info")
     public ResponseData<Object> getInfo() {
-        SystemUserVO info = authenticationHandler.getInfo();
+        SystemUser systemUser = SecurityUtil.currentUser();
+        SystemUserVO info = SystemUserConvertor.INSTANCE.toVO(systemUser);
         return ResponseData.success(info);
     }
 
-    /**
-     * 登出
-     */
-    @PostMapping("/logout")
-    public ResponseData<Integer> logout(HttpServletRequest request) {
-        int count = authenticationHandler.logout(SecurityUtil.getTokenVal(request));
-        return ResponseData.success(count);
-    }
+    // /**
+    //  * 登出
+    //  */
+    // @PostMapping("/logout")
+    // public ResponseData<Integer> logout(HttpServletRequest request) {
+    //     int count = authenticationHandler.logout(SecurityUtil.getTokenVal(request));
+    //     return ResponseData.success(count);
+    // }
 
     // /**
     //  * 刷新Token
