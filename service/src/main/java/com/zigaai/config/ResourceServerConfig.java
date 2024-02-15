@@ -56,8 +56,8 @@ public class ResourceServerConfig extends BaseResourceServerConfig {
     @Bean
     @Order(2)
     @Override
-    public SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
-        return super.defaultSecurityFilterChain(http);
+    public SecurityFilterChain resourceSecurityFilterChain(HttpSecurity http) throws Exception {
+        return super.resourceSecurityFilterChain(http);
     }
 
     @Override
@@ -65,6 +65,11 @@ public class ResourceServerConfig extends BaseResourceServerConfig {
         AuthenticationManager authenticationManager = buildAuthenticationManager();
         LoginAuthenticationFilter loginAuthenticationFilter = buildLoginFilter(authenticationManager);
         http.addFilterAfter(loginAuthenticationFilter, HeaderWriterFilter.class);
+    }
+
+    @Override
+    protected String[] ignoreUrls() {
+        return securityProperties.getIgnoreUrls().toArray(new String[0]);
     }
 
     public LoginAuthenticationFilter buildLoginFilter(AuthenticationManager authenticationManager) {

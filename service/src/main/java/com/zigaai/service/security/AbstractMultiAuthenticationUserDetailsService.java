@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @RequiredArgsConstructor
@@ -58,7 +59,7 @@ public abstract class AbstractMultiAuthenticationUserDetailsService<T extends Au
     }
 
     @Override
-    public String getSaltByUsername(String username) {
+    public String getSalt(String username) {
         String key = RedisConstant.USER_SALT(getKey(), username);
         String salt = (String) redisTemplate.opsForValue().get(key);
         if (StringUtils.isNoneBlank(salt)) {
@@ -67,6 +68,13 @@ public abstract class AbstractMultiAuthenticationUserDetailsService<T extends Au
         salt = authenticationMapper.getSaltByUsername(username);
         redisTemplate.opsForValue().set(key, salt, 3, TimeUnit.DAYS);
         return salt;
+    }
+
+    @Override
+    public void updateSalt(String username) {
+        String key = RedisConstant.USER_SALT(getKey(), username);
+        authenticationMapper.updateSalt(username, UUID.randomUUID().toString());
+        redisTemplate.delete(key);
     }
 
     protected abstract SystemUser buildSystemUser(T sysUser, List<Role> roleList, List<Menu> menuList);

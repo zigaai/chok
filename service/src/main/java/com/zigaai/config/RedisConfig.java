@@ -18,7 +18,7 @@ import java.time.Duration;
 @EnableCaching
 @AutoConfiguration
 @AutoConfigureBefore(RedisAutoConfiguration.class)
-@ConditionalOnExpression("!T(org.springframework.util.StringUtils).isEmpty('${spring.data.redis.host:}')")
+@ConditionalOnExpression("!T(org.springframework.util.StringUtils).isEmpty('${spring.data.redis.host}')")
 public class RedisConfig {
 
     @Bean

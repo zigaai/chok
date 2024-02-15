@@ -3,6 +3,7 @@ package com.zigaai.mapper;
 
 import com.zigaai.db.MapperSupport;
 import com.zigaai.infra.security.Oauth2RegisteredClient;
+import com.zigaai.oauth2.repo.Oauth2RegisteredClientMapper;
 
 /**
  * <p>
@@ -12,7 +13,7 @@ import com.zigaai.infra.security.Oauth2RegisteredClient;
  * @author zigaai
  * @since 2023-07-02
  */
-public interface Oauth2RegisteredClientMapper extends MapperSupport<Oauth2RegisteredClient>, com.zigaai.oauth2.repo.Oauth2RegisteredClientMapper {
+public interface DaoOauth2RegisteredClientMapper extends MapperSupport<Oauth2RegisteredClient>, Oauth2RegisteredClientMapper {
 
     Oauth2RegisteredClient getByClientId(String clientId);
 

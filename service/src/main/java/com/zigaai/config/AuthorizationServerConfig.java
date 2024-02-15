@@ -9,6 +9,7 @@ import com.zigaai.oauth2.service.RedisOAuth2AuthorizationService;
 import com.zigaai.security.filter.JwtFilter;
 import com.zigaai.security.handler.DefaultAccessDeniedHandler;
 import com.zigaai.security.handler.DefaultAuthenticationEntryPoint;
+import com.zigaai.security.properties.CustomSecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
@@ -22,6 +23,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class AuthorizationServerConfig extends BaseAuthorizationServerConfig {
 
+    private final CustomSecurityProperties securityProperties;
+
     public AuthorizationServerConfig(OAuth2AuthenticationEntryPoint oauth2AuthenticationEntryPoint,
                                      RegisteredClientRepository registeredClientRepository,
                                      RedisOAuth2AuthorizationService redisOAuth2AuthorizationService,
@@ -30,8 +33,10 @@ public class AuthorizationServerConfig extends BaseAuthorizationServerConfig {
                                      DefaultAccessDeniedHandler defaultAccessDeniedHandler,
                                      DefaultAuthenticationEntryPoint defaultAuthenticationEntryPoint,
                                      JwtFilter jwtFilter,
-                                     RedisOAuth2AuthorizationConsentService redisOAuth2AuthorizationConsentService) {
+                                     RedisOAuth2AuthorizationConsentService redisOAuth2AuthorizationConsentService,
+                                     CustomSecurityProperties securityProperties) {
         super(oauth2AuthenticationEntryPoint, registeredClientRepository, redisOAuth2AuthorizationService, oauth2AuthorizationErrorHandler, oAuth2AuthenticationSuccessHandler, defaultAccessDeniedHandler, defaultAuthenticationEntryPoint, jwtFilter, redisOAuth2AuthorizationConsentService);
+        this.securityProperties = securityProperties;
     }
 
     @Bean
@@ -39,5 +44,10 @@ public class AuthorizationServerConfig extends BaseAuthorizationServerConfig {
     @Override
     public SecurityFilterChain authorizationServerSecurityFilterChain(HttpSecurity http) throws Exception {
         return super.authorizationServerSecurityFilterChain(http);
+    }
+
+    @Override
+    protected String[] ignoreUrls() {
+        return securityProperties.getIgnoreUrls().toArray(new String[0]);
     }
 }

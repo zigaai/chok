@@ -15,9 +15,8 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.server.authorization.token.JwtEncodingContext;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenCustomizer;
 import org.springframework.security.oauth2.server.authorization.token.OAuth2TokenGenerator;
-
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
+import org.springframework.security.oauth2.server.resource.web.DefaultBearerTokenResolver;
 
 @Configuration(proxyBeanMethods = false)
 public class TokenConfig extends BaseTokenConfig {
@@ -58,12 +57,17 @@ public class TokenConfig extends BaseTokenConfig {
 
     @Bean
     @Override
-    public JWKSource<SecurityContext> jwkSource() throws NoSuchAlgorithmException, InvalidKeySpecException {
+    public JWKSource<SecurityContext> jwkSource() {
         return super.jwkSource();
     }
 
     @Bean
     public TokenCacheService tokenCacheService() {
         return new TokenCacheService(redisTemplate);
+    }
+
+    @Bean
+    public BearerTokenResolver bearerTokenResolver() {
+        return new DefaultBearerTokenResolver();
     }
 }

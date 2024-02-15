@@ -1,6 +1,6 @@
 package com.zigaai.config;
 
-import com.zigaai.mapper.Oauth2RegisteredClientMapper;
+import com.zigaai.mapper.DaoOauth2RegisteredClientMapper;
 import com.zigaai.oauth2.repo.DaoRegisteredClientRepository;
 import com.zigaai.oauth2.service.RedisOAuth2AuthorizationConsentService;
 import com.zigaai.oauth2.service.RedisOAuth2AuthorizationService;
@@ -16,7 +16,7 @@ public class Oauth2ExtensionConfig {
 
     private final RedisTemplate<String, Object> redisTemplate;
 
-    private final Oauth2RegisteredClientMapper oauth2RegisteredClientMapper;
+    private final DaoOauth2RegisteredClientMapper oauth2RegisteredClientMapper;
 
     @Bean
     public RegisteredClientRepository registeredClientRepository() {
