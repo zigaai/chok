@@ -2,6 +2,11 @@ import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 buildscript {
     ext {
+        protobuf_version = '3.25.2'
+        protobuf_plugin_version = '0.9.4'
+        grpc_version = '1.62.2'
+        grpc_springboot_version = '3.0.0.RELEASE'
+
         common_version = '0.0.1'
         mapstruct_version = '1.5.5.Final'
         springboot_version = '3.2.2'
@@ -9,10 +14,6 @@ buildscript {
         mybatis_plus_version = '3.5.5'
         nimbus_jose_jwt_version = '9.37'
         guava_version = '32.1.2-jre'
-        protobuf_version = '3.25.2'
-        protobuf_plugin_version = '0.9.4'
-        grpc_version = '1.58.1'
-        grpc_springboot_version = '2.15.0.RELEASE'
         hutool_version = '5.8.26'
     }
 }
@@ -58,13 +59,14 @@ subprojects {
         dependencies {
             dependency "com.baomidou:mybatis-plus-spring-boot3-starter:${mybatis_plus_version}"
             dependency "com.baomidou:mybatis-plus-annotation:${mybatis_plus_version}"
-            dependency "com.mysql:mysql-connector-j:${mysql_version}"
+//            dependency "com.mysql:mysql-connector-j:${mysql_version}"
             dependency "com.nimbusds:nimbus-jose-jwt:${nimbus_jose_jwt_version}"
             dependency "com.google.guava:guava:${guava_version}"
             dependency "io.grpc:grpc-protobuf:${grpc_version}"
             dependency "io.grpc:grpc-stub:${grpc_version}"
-            dependency "net.devh:grpc-server-spring-boot-starter:${grpc_springboot_version}"
-            dependency "net.devh:grpc-client-spring-boot-starter:${grpc_springboot_version}"
+            dependency "net.devh:grpc-spring-boot-starter:${grpc_springboot_version}"
+//            dependency "net.devh:grpc-server-spring-boot-starter:${grpc_springboot_version}"
+//            dependency "net.devh:grpc-client-spring-boot-starter:${grpc_springboot_version}"
             dependency "cn.hutool:hutool-crypto:${hutool_version}"
 
             dependency "com.zigaai:common-core:${common_version}"

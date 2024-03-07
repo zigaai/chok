@@ -21,6 +21,7 @@ protobuf {
     protoc {
         artifact = "com.google.protobuf:protoc:${protobuf_version}"
     }
+
 //     generatedFilesBaseDir = "$projectDir/src/generated"
 //     clean {
 //         delete generatedFilesBaseDir
