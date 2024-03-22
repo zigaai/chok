@@ -105,7 +105,7 @@ class ApiTest {
             user.setPhone("phone_" + i);
             user.setAvatar("");
             user.setCreateTime(new Date());
-            user.setIsDeleted(false);
+            user.setDeleted(false);
             list.add(user);
         }
         for (int i = 0; i < 20; i++) {

@@ -1,4 +1,4 @@
-package com.zigaai.service.security;
+package com.zigaai.infra.security;
 
 import com.zigaai.constants.RedisConstant;
 import com.zigaai.mapper.AuthenticationMapper;
@@ -40,21 +40,20 @@ public abstract class AbstractMultiAuthenticationUserDetailsService<T extends Au
         CustomSecurityProperties.Context userType = securityProperties.getUserType(getKey());
         String key = RedisConstant.SYS_USER_INFO(getKey(), username);
         SystemUser systemUser = (SystemUser) redisTemplate.opsForValue().get(key);
-        if (systemUser != null) {
-            return systemUser;
+        if (systemUser == null) {
+            T sysUser = authenticationMapper.getByUsername(username);
+            if (sysUser == null) {
+                throw new UsernameNotFoundException("系统用户不存在");
+            }
+            List<Role> roleList = roleMapper.listBySysUserId(sysUser.getId(), userType);
+            List<Menu> menuList = Collections.emptyList();
+            if (!CollectionUtils.isEmpty(roleList)) {
+                List<Long> roleIdList = roleList.stream().map(Role::getId).toList();
+                menuList = menuMapper.listByRoleIds(roleIdList);
+            }
+            systemUser = this.buildSystemUser(sysUser, roleList, menuList);
+            redisTemplate.opsForValue().set(key, systemUser, securityProperties.getToken().getRefreshTimeToLive(), TimeUnit.SECONDS);
         }
-        T sysUser = authenticationMapper.getByUsername(username);
-        if (sysUser == null) {
-            throw new UsernameNotFoundException("系统用户不存在");
-        }
-        List<Role> roleList = roleMapper.listBySysUserId(sysUser.getId(), userType);
-        List<Menu> menuList = Collections.emptyList();
-        if (!CollectionUtils.isEmpty(roleList)) {
-            List<Long> roleIdList = roleList.stream().map(Role::getId).toList();
-            menuList = menuMapper.listByRoleIds(roleIdList);
-        }
-        systemUser = this.buildSystemUser(sysUser, roleList, menuList);
-        redisTemplate.opsForValue().set(key, systemUser, securityProperties.getToken().getRefreshTimeToLive(), TimeUnit.SECONDS);
         return systemUser;
     }
 

@@ -1,13 +1,19 @@
 package com.zigaai.mapper;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zigaai.db.MapperSupport;
-import com.zigaai.infra.security.Oauth2RegisteredClient;
+import com.zigaai.model.dto.command.Oauth2RegisteredClientDTO;
+import com.zigaai.model.dto.query.Oauth2RegisteredClientQuery;
+import com.zigaai.model.entity.Oauth2RegisteredClient;
 import com.zigaai.oauth2.repo.Oauth2RegisteredClientMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * <p>
- *  Mapper 接口
+ * Mapper 接口
  * </p>
  *
  * @author zigaai
@@ -15,8 +21,13 @@ import com.zigaai.oauth2.repo.Oauth2RegisteredClientMapper;
  */
 public interface DaoOauth2RegisteredClientMapper extends MapperSupport<Oauth2RegisteredClient>, Oauth2RegisteredClientMapper {
 
+    @Override
     Oauth2RegisteredClient getByClientId(String clientId);
 
-    String getClientIdById(String id);
+    List<Oauth2RegisteredClient> page(IPage<Oauth2RegisteredClient> page,
+                                                 @Param("params") Oauth2RegisteredClientQuery params,
+                                                 @Param("columns") String... columns);
+
+    int updateStateBatch(@Param("data") Oauth2RegisteredClientDTO data);
 
 }

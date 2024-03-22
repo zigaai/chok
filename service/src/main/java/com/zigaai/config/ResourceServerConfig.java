@@ -11,6 +11,8 @@ import com.zigaai.security.provider.DaoMultiAuthenticationProvider;
 import com.zigaai.security.service.AuthenticationService;
 import com.zigaai.security.service.TokenCacheService;
 import com.zigaai.strategy.StrategyFactory;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +20,18 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.HeaderWriterFilter;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 @EnableConfigurationProperties(CustomSecurityProperties.class)
 public class ResourceServerConfig extends BaseResourceServerConfig {
 
@@ -83,6 +90,17 @@ public class ResourceServerConfig extends BaseResourceServerConfig {
     public AuthenticationManager buildAuthenticationManager() {
         DaoMultiAuthenticationProvider daoMultiAuthenticationProvider = new DaoMultiAuthenticationProvider(authenticationService, securityProperties);
         return new ProviderManager(daoMultiAuthenticationProvider);
+    }
+
+    @Bean
+    public GrantedAuthorityDefaults grantedAuthorityDefaults() {
+        return new GrantedAuthorityDefaults(StringUtils.EMPTY);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

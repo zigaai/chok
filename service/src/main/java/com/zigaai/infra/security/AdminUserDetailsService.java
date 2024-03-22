@@ -1,4 +1,4 @@
-package com.zigaai.service.security;
+package com.zigaai.infra.security;
 
 import com.zigaai.mapper.AdminMapper;
 import com.zigaai.mapper.MenuMapper;

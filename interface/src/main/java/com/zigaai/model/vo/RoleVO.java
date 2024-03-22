@@ -1,5 +1,6 @@
 package com.zigaai.model.vo;
 
+import com.zigaai.model.entity.Role;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -19,39 +20,9 @@ import java.util.Date;
 @Getter
 @Setter
 @ToString
-public class RoleVO implements Serializable {
+public class RoleVO extends Role implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
-    /**
-     * 
-     */
-    private Long id;
-
-    /**
-     * 角色编码
-     */
-    private String roleCode;
-
-    /**
-     * 角色名
-     */
-    private String roleName;
-
-    /**
-     * 角色描述
-     */
-    private String roleDescription;
-
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-
-    /**
-     * 状态: 	0: 正常 	1: 删除 
-     */
-    private Boolean isDeleted;
 
 }

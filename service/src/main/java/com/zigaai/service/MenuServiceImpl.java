@@ -51,7 +51,7 @@ public class MenuServiceImpl {
 
     public int save(MenuDTO data) {
         Menu entity = MenuConvertor.INSTANCE.toEntity(data);
-        entity.setIsDeleted(TbState.NORMAL.booleanVal());
+        entity.setDeleted(TbState.NORMAL.booleanVal());
         return menuMapper.insert(entity);
     }
 

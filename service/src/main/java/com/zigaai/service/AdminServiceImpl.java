@@ -28,7 +28,7 @@ public class AdminServiceImpl {
     private final AdminMapper adminMapper;
 
     public IPage<AdminVO> page(AdminQuery params) {
-        Page<AdminVO> page = new Page<>();
+        Page<AdminVO> page = new Page<>(params.getCurrent(), params.getSize());
         List<AdminVO> records = adminMapper.listByCondition(page, params);
         page.setRecords(records);
         return page;

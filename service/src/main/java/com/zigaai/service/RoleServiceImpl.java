@@ -28,7 +28,7 @@ public class RoleServiceImpl {
     private final RoleMapper roleMapper;
 
     public IPage<RoleVO> page(RoleQuery params) {
-        Page<RoleVO> page = new Page<>();
+        Page<RoleVO> page = new Page<>(params.getCurrent(), params.getSize());
         List<RoleVO> records = roleMapper.listByCondition(page, params);
         page.setRecords(records);
         return page;

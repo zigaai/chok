@@ -18,11 +18,11 @@
         <result column="requires_auth" jdbcType="TINYINT" property="requiresAuth" />
         <result column="keep_alive" jdbcType="TINYINT" property="keepAlive" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+        <result column="deleted" jdbcType="BIT" property="deleted" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, parent_id, `name`, title, icon, permission_type, `path`, redirect, `component`, affix, sort, hide, requires_auth, keep_alive, create_time, is_deleted
+        id, parent_id, `name`, title, icon, permission_type, `path`, redirect, `component`, affix, sort, hide, requires_auth, keep_alive, create_time, deleted
     </sql>
 
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.model.entity.Menu" useGeneratedKeys="true">
@@ -73,8 +73,8 @@
             <if test="createTime != null">
                 create_time,
             </if>
-            <if test="isDeleted != null">
-                is_deleted,
+            <if test="deleted != null">
+                deleted,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -123,8 +123,8 @@
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="isDeleted != null">
-                #{isDeleted,jdbcType=TINYINT},
+            <if test="deleted != null">
+                #{deleted,jdbcType=TINYINT},
             </if>
         </trim>
     </insert>
@@ -174,8 +174,8 @@
         <if test="et.createTime != null">
             create_time = #{et.createTime,jdbcType=TIMESTAMP},
         </if>
-        <if test="et.isDeleted != null">
-            is_deleted = #{et.isDeleted,jdbcType=TINYINT},
+        <if test="et.deleted != null">
+            deleted = #{et.deleted,jdbcType=TINYINT},
         </if>
       </set>
       where id = #{et.id,jdbcType=BIGINT}
@@ -183,10 +183,10 @@
 
     <insert id="insertBatch" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
       insert into `menu`
-      (id, parent_id, name, title, icon, permission_type, path, redirect, component, affix, sort, hide, requires_auth, keep_alive, create_time, is_deleted)
+      (id, parent_id, name, title, icon, permission_type, path, redirect, component, affix, sort, hide, requires_auth, keep_alive, create_time, deleted)
       values
       <foreach collection="entityList" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, #{item.icon,jdbcType=VARCHAR}, #{item.permissionType,jdbcType=TINYINT}, #{item.path,jdbcType=VARCHAR}, #{item.redirect,jdbcType=VARCHAR}, #{item.component,jdbcType=VARCHAR}, #{item.affix,jdbcType=TINYINT}, #{item.sort,jdbcType=INTEGER}, #{item.hide,jdbcType=TINYINT}, #{item.requiresAuth,jdbcType=TINYINT}, #{item.keepAlive,jdbcType=TINYINT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.isDeleted,jdbcType=TINYINT})
+      (#{item.id,jdbcType=BIGINT}, #{item.parentId,jdbcType=BIGINT}, #{item.name,jdbcType=VARCHAR}, #{item.title,jdbcType=VARCHAR}, #{item.icon,jdbcType=VARCHAR}, #{item.permissionType,jdbcType=TINYINT}, #{item.path,jdbcType=VARCHAR}, #{item.redirect,jdbcType=VARCHAR}, #{item.component,jdbcType=VARCHAR}, #{item.affix,jdbcType=TINYINT}, #{item.sort,jdbcType=INTEGER}, #{item.hide,jdbcType=TINYINT}, #{item.requiresAuth,jdbcType=TINYINT}, #{item.keepAlive,jdbcType=TINYINT}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.deleted,jdbcType=TINYINT})
       </foreach>
     </insert>
 
@@ -291,10 +291,10 @@
             </if>
           </foreach>
         </trim>
-        <trim prefix="is_deleted = case" suffix="end,">
+        <trim prefix="deleted = case" suffix="end,">
           <foreach collection="entityList" index="index" item="item">
-            <if test="item.isDeleted != null">
-                when id = #{item.id,jdbcType=BIGINT} then #{item.isDeleted,jdbcType=TINYINT}
+            <if test="item.deleted != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.deleted,jdbcType=TINYINT}
             </if>
           </foreach>
         </trim>
@@ -322,7 +322,7 @@
         select <include refid="Dynamic_Column" />
         from `menu`
         where id = #{id,jdbcType=BIGINT}
-        and is_deleted = 0
+        and deleted = 0
     </select>
 
     <select id="listByIds" resultMap="BaseResultMap">
@@ -332,22 +332,22 @@
         <foreach collection="ids" close=")" item="item" open="(" separator=",">
             #{item,jdbcType=BIGINT}
         </foreach>
-        and is_deleted = 0
+        and deleted = 0
     </select>
 
     <update id="deleteById" parameterType="Long">
         update `menu`
-        set is_deleted = 1
+        set deleted = 1
         where id = #{id,jdbcType=BIGINT}
     </update>
 
     <update id="deleteBatchByIds">
         update `menu`
-        set is_deleted = 1 where id in
+        set deleted = 1 where id in
         <foreach collection="ids" separator="," item="item" close=")" open="(">
             #{item,jdbcType=BIGINT}
         </foreach>
-        and is_deleted = 0
+        and deleted = 0
     </update>
 
 </mapper>

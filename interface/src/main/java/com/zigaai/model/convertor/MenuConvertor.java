@@ -16,7 +16,7 @@ public interface MenuConvertor {
 
     MenuVO toVO(Menu entity);
 
-    @Mapping(target = "isDeleted", ignore = true)
+    @Mapping(target = "deleted", ignore = true)
     @Mapping(target = "createTime", ignore = true)
     Menu toEntity(MenuDTO dto);
 

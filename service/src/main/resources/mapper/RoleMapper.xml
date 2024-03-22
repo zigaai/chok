@@ -9,7 +9,7 @@
         <result column="role_name" jdbcType="VARCHAR" property="roleName" />
         <result column="role_description" jdbcType="VARCHAR" property="roleDescription" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+        <result column="deleted" jdbcType="BIT" property="deleted" />
     </resultMap>
 
     <select id="listByCondition" resultMap="VOResultMap">
@@ -31,7 +31,7 @@
                     and `create_time` = #{params.createTime,jdbcType=TIMESTAMP}
                 </if>
             </if>
-            and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+            and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
         </where>
     </select>
 
@@ -40,7 +40,7 @@
         b.role_code,
         b.role_name
         from ${userType.relationTable} <!--$sql rel_user_role--> a
-        join role b on a.role_id = b.id and b.is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        join role b on a.role_id = b.id and b.deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
         where a.${userType.relationId} <!--$sql user_id--> = #{userId,jdbcType=BIGINT}
     </select>
 </mapper>

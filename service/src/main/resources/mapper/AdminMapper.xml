@@ -13,7 +13,7 @@
         <result column="phone" jdbcType="VARCHAR" property="phone" />
         <result column="avatar" jdbcType="VARCHAR" property="avatar" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+        <result column="deleted" jdbcType="BIT" property="deleted" />
     </resultMap>
 
     <select id="listByCondition" resultMap="VOResultMap">
@@ -47,7 +47,7 @@
                     and `create_time` = #{params.createTime,jdbcType=TIMESTAMP}
                 </if>
             </if>
-            and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+            and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
         </where>
     </select>
 
@@ -56,19 +56,19 @@
         <include refid="Base_Column_List" />
         from admin
         where username = #{username,jdbcType=VARCHAR}
-        and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </select>
 
     <update id="updateSalt">
         update `admin` set salt = #{salt,jdbcType=VARCHAR}
         where username = #{username,jdbcType=VARCHAR}
-        and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </update>
 
     <select id="getSaltByUsername" resultType="java.lang.String">
         select salt from `admin`
         where username = #{username,jdbcType=VARCHAR}
-        and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </select>
 
 </mapper>

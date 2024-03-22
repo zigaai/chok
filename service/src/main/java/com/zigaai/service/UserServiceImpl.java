@@ -28,7 +28,7 @@ public class UserServiceImpl {
     private final UserMapper userMapper;
 
     public IPage<UserVO> page(UserQuery params) {
-        Page<UserVO> page = new Page<>();
+        Page<UserVO> page = new Page<>(params.getCurrent(), params.getSize());
         List<UserVO> records = userMapper.listByCondition(page, params);
         page.setRecords(records);
         return page;

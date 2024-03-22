@@ -84,8 +84,8 @@ public class Admin implements Serializable, AuthenticationModel {
     /**
      * 状态: 	0: 正常 	1: 删除 
      */
-    @TableField("is_deleted")
-    private Boolean isDeleted;
+    @TableField("deleted")
+    private Boolean deleted;
 
     @Override
     public String getUserType() {

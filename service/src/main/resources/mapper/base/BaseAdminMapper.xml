@@ -12,11 +12,11 @@
         <result column="phone" jdbcType="VARCHAR" property="phone" />
         <result column="avatar" jdbcType="VARCHAR" property="avatar" />
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
-        <result column="is_deleted" jdbcType="BIT" property="isDeleted" />
+        <result column="deleted" jdbcType="BIT" property="deleted" />
     </resultMap>
 
     <sql id="Base_Column_List">
-        id, username, `password`, salt, nick_name, real_name, phone, avatar, create_time, is_deleted
+        id, username, `password`, salt, nick_name, real_name, phone, avatar, create_time, deleted
     </sql>
 
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zigaai.model.entity.Admin" useGeneratedKeys="true">
@@ -49,8 +49,8 @@
             <if test="createTime != null">
                 create_time,
             </if>
-            <if test="isDeleted != null">
-                is_deleted,
+            <if test="deleted != null">
+                deleted,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -81,8 +81,8 @@
             <if test="createTime != null">
                 #{createTime,jdbcType=TIMESTAMP},
             </if>
-            <if test="isDeleted != null">
-                #{isDeleted,jdbcType=BIT},
+            <if test="deleted != null">
+                #{deleted,jdbcType=BIT},
             </if>
         </trim>
     </insert>
@@ -114,8 +114,8 @@
         <if test="et.createTime != null">
             create_time = #{et.createTime,jdbcType=TIMESTAMP},
         </if>
-        <if test="et.isDeleted != null">
-            is_deleted = #{et.isDeleted,jdbcType=BIT},
+        <if test="et.deleted != null">
+            deleted = #{et.deleted,jdbcType=BIT},
         </if>
       </set>
       where id = #{et.id,jdbcType=BIGINT}
@@ -123,10 +123,10 @@
 
     <insert id="insertBatch" keyColumn="id" keyProperty="id" parameterType="map" useGeneratedKeys="true">
       insert into `admin`
-      (id, username, password, salt, nick_name, real_name, phone, avatar, create_time, is_deleted)
+      (id, username, password, salt, nick_name, real_name, phone, avatar, create_time, deleted)
       values
       <foreach collection="entityList" item="item" separator=",">
-      (#{item.id,jdbcType=BIGINT}, #{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, #{item.nickName,jdbcType=VARCHAR}, #{item.realName,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.isDeleted,jdbcType=BIT})
+      (#{item.id,jdbcType=BIGINT}, #{item.username,jdbcType=VARCHAR}, #{item.password,jdbcType=VARCHAR}, #{item.salt,jdbcType=VARCHAR}, #{item.nickName,jdbcType=VARCHAR}, #{item.realName,jdbcType=VARCHAR}, #{item.phone,jdbcType=VARCHAR}, #{item.avatar,jdbcType=VARCHAR}, #{item.createTime,jdbcType=TIMESTAMP}, #{item.deleted,jdbcType=BIT})
       </foreach>
     </insert>
 
@@ -189,10 +189,10 @@
             </if>
           </foreach>
         </trim>
-        <trim prefix="is_deleted = case" suffix="end,">
+        <trim prefix="deleted = case" suffix="end,">
           <foreach collection="entityList" index="index" item="item">
-            <if test="item.isDeleted != null">
-                when id = #{item.id,jdbcType=BIGINT} then #{item.isDeleted,jdbcType=BIT}
+            <if test="item.deleted != null">
+                when id = #{item.id,jdbcType=BIGINT} then #{item.deleted,jdbcType=BIT}
             </if>
           </foreach>
         </trim>
@@ -220,7 +220,7 @@
         select <include refid="Dynamic_Column" />
         from `admin`
         where id = #{id,jdbcType=BIGINT}
-        and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </select>
 
     <select id="listByIds" resultMap="BaseResultMap">
@@ -230,22 +230,22 @@
         <foreach collection="ids" close=")" item="item" open="(" separator=",">
             #{item,jdbcType=BIGINT}
         </foreach>
-        and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </select>
 
     <update id="deleteById" parameterType="Long">
         update `admin`
-        set is_deleted = 1
+        set deleted = 1
         where id = #{id,jdbcType=BIGINT}
     </update>
 
     <update id="deleteBatchByIds">
         update `admin`
-        set is_deleted = 1 where id in
+        set deleted = 1 where id in
         <foreach collection="ids" separator="," item="item" close=")" open="(">
             #{item,jdbcType=BIGINT}
         </foreach>
-        and is_deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
+        and deleted = ${@com.zigaai.enumeration.TbState@NORMAL.getVal()} <!--$sql 0-->
     </update>
 
 </mapper>

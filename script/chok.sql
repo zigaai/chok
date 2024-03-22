@@ -32,7 +32,7 @@ CREATE TABLE `admin`  (
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '头像地址',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
+  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '管理员表' ROW_FORMAT = DYNAMIC;
 
@@ -54,7 +54,7 @@ CREATE TABLE `common_dict`  (
   `dict_sort` int NOT NULL DEFAULT 1 COMMENT '字典排序',
   `insert_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '插入时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
+  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '字典表' ROW_FORMAT = DYNAMIC;
 
@@ -83,7 +83,7 @@ CREATE TABLE `menu`  (
   `keep_alive` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否缓存页面: \r\n0: 否; \r\n1: 是; ',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
+  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '页面权限表' ROW_FORMAT = DYNAMIC;
 
@@ -184,7 +184,7 @@ CREATE TABLE `role`  (
   `role_description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '角色描述',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
+  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色表' ROW_FORMAT = DYNAMIC;
 
@@ -208,7 +208,7 @@ CREATE TABLE `user`  (
   `avatar` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL DEFAULT '' COMMENT '头像地址',
   `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  `is_deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
+  `deleted` tinyint(1) NOT NULL DEFAULT 0 COMMENT '删除状态: \r\n0: 正常 \r\n1: 删除 ',
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '用户表' ROW_FORMAT = DYNAMIC;
 
