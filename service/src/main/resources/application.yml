@@ -1,7 +1,10 @@
 server:
   port: 8888
+  shutdown: graceful
 
 spring:
+  lifecycle:
+    timeout-per-shutdown-phase: 60s
   application:
     name: chok
   profiles:
@@ -13,7 +16,6 @@ spring:
 #  threads:
 #    virtual:
 #      enabled: true
-
 security:
   ignore-urls:
     - /favicon.ico
@@ -34,3 +36,16 @@ security:
       code: user
       relation-table: rel_user_role
       relation-id: user_id
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - health
+          - info
+          - refresh
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true

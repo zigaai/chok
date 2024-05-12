@@ -3,6 +3,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation "org.springframework.boot:spring-boot-starter-web"
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'com.baomidou:mybatis-plus-spring-boot3-starter'
     implementation 'org.hibernate.validator:hibernate-validator'
     implementation 'com.mysql:mysql-connector-j'
@@ -14,8 +15,6 @@ dependencies {
     implementation 'org.springframework.security:spring-security-oauth2-authorization-server'
     implementation "io.grpc:grpc-core:${grpc_version}"
     implementation 'net.devh:grpc-spring-boot-starter'
-//    implementation 'net.devh:grpc-server-spring-boot-starter'
-//    implementation 'net.devh:grpc-client-spring-boot-starter'
     implementation "cn.hutool:hutool-crypto"
 
     implementation 'com.zigaai:common-core'
