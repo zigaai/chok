@@ -10,3 +10,4 @@
 #  preStop:
 #    exec:
 #      command: ["sh", "-c", "sleep 10"]
+# -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/opt/jvm/dump/heapdump.hprof
